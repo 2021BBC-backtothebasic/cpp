@@ -60,3 +60,29 @@ int main()
 
 
 }
+
+/*  Result
+ *
+ *  nullptr사용
+ *
+ *  ptrNum: 00E1FE38  *ptrNum: 100
+ *
+ *  ptrNum: 00E1FE38  *ptrNum: 100
+ *
+ *  void Print(int num)0
+ *
+ *  ptrNum  nullptr: 00000000
+ *
+ *  void 포인터
+ *
+ *  1. 역참조시 반드시 형변환(캐스팅)후에 처리: *(int*)ptr
+ *
+ *  *ptr:  100
+ *
+ *  *ptr:  0.001
+ *
+ *  2. 포인터 연산 불가: ptr++
+ *
+ *  3. const는 초기화 불가: const double DNUM = 10000.0000;  ptr = &DNUM;
+ *
+ *  */
