@@ -1,0 +1,16 @@
+{
+  "Version": 1,
+  "ProjectMap": {
+    "9f18038b-9658-4fc9-99e6-a11fa7c9d0a2": {
+      "ProjectGuid": "9f18038b-9658-4fc9-99e6-a11fa7c9d0a2",
+      "DisplayName": "ClassOverload",
+      "ColorIndex": 0
+    },
+    "989029fc-dad2-4876-95a1-39a3ea89a8a5": {
+      "ProjectGuid": "989029fc-dad2-4876-95a1-39a3ea89a8a5",
+      "DisplayName": "OpeOverload",
+      "ColorIndex": 1
+    }
+  },
+  "NextColorIndex": 2
+}
