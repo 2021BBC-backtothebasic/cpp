@@ -14,7 +14,10 @@ int main()
 	double dNum1, dNum2, result; 
 	char oper; // = '*'; 지정해서 사용할 수 있음 + - / *
 
+    cout << "계산할 숫자 두개를 입력하세요! \n >> "; cin >> dNum1 >> dNum2;
+    cout << "연산할 기호를 입력하세요. [+, -, *, / ] \n>>   "; cin >> oper;
     
+   
 	switch (oper)
 	{
 		case '+':
@@ -34,10 +37,7 @@ int main()
 			break;
 	}
 
-    cout << "계산할 숫자 두개를 입력하세요! \n >> "; cin >> dNum1 >> dNum2;
-    cout << "연산할 기호를 입력하세요. [+, -, *, / ] \n>>   "; cin >> oper;
-    
-    result = Calc(dNum1, dNum2, calc);
+     result = Calc(dNum1, dNum2, calc);
     cout << "The result : " << result << endl;
 
 	return 0;
