@@ -1,5 +1,5 @@
-#ifndef __OBJPTR_H_
-#define __OBJPTR_H_
+#ifndef _OBJPTR_H_
+#define _OBJPTR_H_
 
 using namespace std;
 
@@ -10,7 +10,7 @@ public:
 };
 class Student : public Person
 {
-    void Study();
+    public: void Study();
 };
 
 class PartTimeStudent : public Student

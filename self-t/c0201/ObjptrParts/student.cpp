@@ -1,4 +1,4 @@
-#include "ObjPtr.cpp"
+#include "ObjPtr.h"
 
 int main(void)
 {
@@ -8,7 +8,7 @@ int main(void)
     
     ptr1-> Sleep();
     ptr2-> Sleep();
-    ptr3 -> Study();
+    ptr3-> Study();
     
     delete ptr1, ptr2, ptr3;
     

@@ -3,15 +3,15 @@
 
 class Person
 {
-    public: void Sleep() { cout << "Sleep" << endl;}
+    public: void Person::Sleep() { cout << "Sleep" << endl;}
 }
 
 class Student : public Person
 {
-public: void Study() { cout << "Study" << endl;}
+public: void Student::Study() { cout << "Study" << endl;}
 }
 
 class PartTimeStudent : public Student
 {
-public: void Work()  { cout << "Work" << endl;}
+public: void PartTimeStudent::Work()  { cout << "Work" << endl;}
 }
