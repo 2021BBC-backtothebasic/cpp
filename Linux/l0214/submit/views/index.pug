@@ -1,0 +1,24 @@
+extends layout
+ 
+block content
+  
+  h1= title
+  p Welcome to #{title}
+
+  form#frm(onsubmit="sbmt()")
+      label 아이디 
+      input(placeholder="아이디 입력")
+      
+      br
+      label  비번&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+      input(type="password" placeholder="********")  
+      br
+      
+      .button
+          
+          input#login(type="submit" value="로그인") 
+          input#join(type="submit" value="회원가입")
+  
+  script
+      include ../public/javascrips/btn.js
+  
