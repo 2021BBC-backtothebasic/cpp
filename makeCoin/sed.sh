@@ -6,12 +6,8 @@ read initialname
 
 
 echo "test 샘플 cp -f ./test.txt ./test/test.txt"
-echo "mkdir ${pjname}coin folder && set .."
-echo $mkdirpj
 echo ${testcp}
-mkdirpj=$(mkdir ${pjname}coin;)
-testcp=$( cp -f ../test.txt ./${pjname}coin/test.txt; cd ${pjname}coin)
-
+testcp=$( cp -f ../test.txt ./test.txt; )
 echo "Litecoin --> ${pjname^}coin 으로 변경"
 echo "LiteCoin --> ${pjname^}${coinstring^}으로 변경"
 echo "litecoin --> ${pjname}coin 으로 변경"
