@@ -1,0 +1,5 @@
+#ifndef BITCOIN_CHAINP> ARAMSSEEDS_H
+#define BITCOIN_CHAINPARAMSSEEDS_H
+static SeedSpec6 pnSeed6_main[]={};
+static SeedSpec6 pnSeed6_test[] = {};
+#endif
