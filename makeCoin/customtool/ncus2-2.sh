@@ -181,6 +181,8 @@ find ./ -type f -print0 | xargs -0 sed -i "s/19332/1${testport}/g";
 echo $getClear
 echo -e "\n제네시스 해시값 생성중... 약 10분 소요"
 echo $getGen
+
+
 getGen=$(
 cd ${pjname}coin; sudo apt-get install libssl-dev -y ;
 git clone https://github.com/lhartikk/GenesisH0; cd GenesisH0;
