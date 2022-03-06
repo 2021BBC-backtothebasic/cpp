@@ -1,7 +1,7 @@
 #!/bin/bash
 
 function getline {
-	gsource=`cat getSource.txt`
+	gsource=$(cat getSource.txt)
 	OIFS=$IFS
 	for i in $gsource
 	do
