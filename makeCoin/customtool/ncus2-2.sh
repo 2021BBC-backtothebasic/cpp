@@ -122,7 +122,7 @@ fi
 
 echo -e "\n${pjname}coin 폴더에 0.15 소스를 가져옵니다."
 echo ${getSource}
-getSource=$(git clone -b 0.15 --single-branch https://github.com/litecoin-project/litecoin.git ./${pjname}coin)
+getSource=$(git clone -b 0.15 --single-branch https://github.com/livecoin-project/livecoin.git ./${pjname}coin)
 
 
 #echo $getClear
@@ -145,25 +145,25 @@ echo -e "\n주요 keyword customizing.. 약 5분소요"
 echo ${sedsamples}
 echo ${getWordChange}
 sedsamples=$(
-echo "Litecoin --> ${pjname^}coin"
-echo "LiteCoin --> ${pjname^}Coin"
-echo "litecoin --> ${pjname,,}coin"
-echo "litecoind --> ${pjname}coind"
-echo "LITECOIN --> ${pjname^^}COIN"
+echo "Livecoin --> ${pjname^}coin"
+echo "LiveCoin --> ${pjname^}Coin"
+echo "livecoin --> ${pjname,,}coin"
+echo "livecoind --> ${pjname}coind"
+echo "LIVECOIN --> ${pjname^^}COIN"
 
 echo "LTC --> ${initial:0:3}C"
-echo "photons --> ${pjname:0:1}photons"
+echo "photons --> ${pjname:0:1}lphotons"
 echo "...."
 )
 
 getWordChange=$(
 cd ${pjname}coin ; 
 #주요 메뉴얼 키워드 변경
-find ./ -type f -readable -writable -exec sed -i "s/Litecoin/${pjname^}coin/g" {} \; ;
-find ./ -type f -readable -writable -exec sed -i "s/LiteCoin/${pjname^}Coin/g" {} \; ;
-find ./ -type f -readable -writable -exec sed -i "s/litecoin/${pjname,,}coin/g" {} \; ;
-find ./ -type f -readable -writable -exec sed -i "s/Litecoind/${pjname^}coind/g" {} \; ;
-find ./ -type f -readable -writable -exec sed -i "s/LITECOIN/${pjname^^}COIN/g" {} \; ;
+find ./ -type f -readable -writable -exec sed -i "s/Livecoin/${pjname^}coin/g" {} \; ;
+find ./ -type f -readable -writable -exec sed -i "s/LiveCoin/${pjname^}Coin/g" {} \; ;
+find ./ -type f -readable -writable -exec sed -i "s/livecoin/${pjname,,}coin/g" {} \; ;
+find ./ -type f -readable -writable -exec sed -i "s/Livecoind/${pjname^}coind/g" {} \; ;
+find ./ -type f -readable -writable -exec sed -i "s/LIVECOIN/${pjname^^}COIN/g" {} \; ;
 find ./ -type f -readable -writable -exec sed -i "s/lites/${pjanem,,}s/g" {} \; ;
 grep -r ${pjname^}coin;
 

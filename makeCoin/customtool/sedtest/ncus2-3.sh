@@ -122,7 +122,7 @@ fi
 
 echo -e "\n${pjname}coin 폴더에 0.15 소스를 가져옵니다."
 echo ${getSource}
-getSource=$(git clone -b 0.15 --single-branch https://github.com/livecoin-project/livecoin.git ./${pjname}coin)
+getSource=$(git clone -b 0.15 --single-branch https://github.com/litecoin-project/litecoin.git ./${pjname}coin)
 
 
 #echo $getClear
@@ -145,67 +145,89 @@ echo -e "\n주요 keyword customizing.. 약 5분소요"
 echo ${sedsamples}
 echo ${getWordChange}
 sedsamples=$(
-echo "Livecoin --> ${pjname^}coin"
-echo "LiveCoin --> ${pjname^}Coin"
-echo "livecoin --> ${pjname,,}coin"
-echo "livecoind --> ${pjname}coind"
-echo "LIVECOIN --> ${pjname^^}COIN"
+echo "Litecoin --> ${pjname^}coin"
+echo "LiteCoin --> ${pjname^}Coin"
+echo "litecoin --> ${pjname,,}coin"
+echo "litecoind --> ${pjname}coind"
+echo "LITECOIN --> ${pjname^^}COIN"
 
-echo "livCC --> ${initial:0:3}C"
-echo "lphotons --> ${pjname:0:1}lphotons"
+echo "LTC --> ${initial:0:3}C"
+echo "photons --> ${pjname:0:1}photons"
 echo "...."
 )
 
 getWordChange=$(
 cd ${pjname}coin ; 
 #주요 메뉴얼 키워드 변경
-find ./ -type f -readable -writable -exec sed -i "s/Livecoin/${pjname^}coin/g" {} \; ;
-find ./ -type f -readable -writable -exec sed -i "s/LiveCoin/${pjname^}Coin/g" {} \; ;
-find ./ -type f -readable -writable -exec sed -i "s/livecoin/${pjname,,}coin/g" {} \; ;
-find ./ -type f -readable -writable -exec sed -i "s/Livecoind/${pjname^}coind/g" {} \; ;
-find ./ -type f -readable -writable -exec sed -i "s/LIVECOIN/${pjname^^}COIN/g" {} \; ;
-find ./ -type f -readable -writable -exec sed -i "s/s/${pjanem,,}s/g" {} \; ;
+find ./ -type f -readable -writable -exec sed -i "s/Litecoin/${pjname^}coin/g" {} \; ;
+find ./ -type f -readable -writable -exec sed -i "s/LiteCoin/${pjname^}Coin/g" {} \; ;
+find ./ -type f -readable -writable -exec sed -i "s/litecoin/${pjname,,}coin/g" {} \; ;
+find ./ -type f -readable -writable -exec sed -i "s/Litecoind/${pjname^}coind/g" {} \; ;
+find ./ -type f -readable -writable -exec sed -i "s/LITECOIN/${pjname^^}COIN/g" {} \; ;
+find ./ -type f -readable -writable -exec sed -i "s/lites/${pjanem,,}s/g" {} \; ;
 grep -r ${pjname^}coin;
 
 #이니셜 및 단위변경
-find ./ -type f -readable -writable -exec sed -i "s/livCC/${initial}C/g" {} \; ;
-find ./ -type f -readable -writable -exec sed -i "s/lphotons/${pjname:0:1}lphotons/g" {} \; ;
+find ./ -type f -readable -writable -exec sed -i "s/LTC/${initial}C/g" {} \; ;
+find ./ -type f -readable -writable -exec sed -i "s/photons/${pjname:0:1}photons/g" {} \; ;
 
 #포트변경
-find ./ -type f -print0 | xargs -0 sed -i "s//${mainport}/g" ;
-find ./ -type f -print0 | xargs -0 sed -i "s//${mainport}/g" ;
-find ./ -type f -print0 | xargs -0 sed -i "s/1/1${testport}/g"; 
-find ./ -type f -print0 | xargs -0 sed -i "s/1/1${testport}/g";
+find ./ -type f -print0 | xargs -0 sed -i "s/9333/${mainport}/g" ;
+find ./ -type f -print0 | xargs -0 sed -i "s/9332/${mainport}/g" ;
+find ./ -type f -print0 | xargs -0 sed -i "s/19335/1${testport}/g"; 
+find ./ -type f -print0 | xargs -0 sed -i "s/19332/1${testport}/g";
 )
 
 echo $getClear
 echo -e "\n제네시스 해시값 생성중... 약 10분 소요"
 echo $getGen
+
+
 getGen=$(
 cd ${pjname}coin; sudo apt-get install libssl-dev -y ;
 git clone https://github.com/lhartikk/GenesisH0; cd GenesisH0;
 sudo pip install scrypt construct==2.5.2; 
 sudo python2 genesis.py -a scrypt -z "${thestamp}" -t "1645871400" > ${pjname}genhash.txt;
-grep -rl :\ | xargs sed -i 's/:\ /=/g'; source ${pjname}genhash.txt;
+grep -rl :\ | xargs sed -i 's/:\ /=/g'; # source ${pjname}genhash.txt;
+
+gsource=$(cat ${pjname}genhash.txt)
+OIFS=$IFS
+	for i in $gsource
+	do
+		if [[ $i == *=* ]] ; then			
+			#  =을 포함한 줄은 j에 입력
+			IFS='=' read -ra j <<< $i
+		fi
+			###제네시스 해시값들 인스턴스###
+		if [[ $j == *merkle_hash* ]] ; then merkle_hash=${j[1]} ; fi
+		if [[ $j == *pszTimestamp* ]] ; then pszTimestamp=${j[1]} ; fi
+		if [[ $j == *pubkey* ]] ; then pubkey=${j[1]} ; fi
+		if [[ $j == *time* ]] ; then time=${j[1]} ; fi
+		if [[ $j == *bits* ]] ; then bits=${j[1]} ; fi
+		if [[ $j == *nonce* ]] ; then nonce=${j[1]} ; fi
+		if [[ $j == *genesis_hash* ]] ; then genesis_hash=${j[1]} ; fi
+	done
+	echo -e "\n값이 잘 들어갔나 하나만 체크 \nmerkle_hash :" $merkle_hash
+	IFS=$OIFS
+
+    # chainparams.cpp에 해시값 적용
+    
 )
 
 
 echo "Chain Seeds 초기화"
-echo ${chianSeedsHead}
-chianSeedsHead=$(
+echo $(
 cd ${pjname}coin/src ; cp -rfv ./chainparamsseeds.h ./backup_chainparamsseeds.h; echo -e "#ifndef BITCOIN_CHAINPARAMSSEEDS_H\n#define BITCOIN_CHAINPARAMSSEEDS_H\nstatic SeedSpec6 pnSeed6_main[] = {};\nstatic SeedSpec6 pnSeed6_test[] = {};\n#endif" > chainparamsseeds.h
 )
 
 echo " checkpointData 백업 및 초기화 "
-echo $checkpointInit
-checkpointInit=$(
+echo $(
 cd ${pjname}coin/src ; cp -rfv ./chainparams.cpp ./backup_chainparams.cpp 
 # 내용수정 작업 필요 
 )
 
-echo -e "\nRPC통신 세팅중... 약 5분 소요"
-echo "${makeRPC}"
-makeRPC=$(
+echo -e "\nRPC통신 Api 세팅중... 약 5분 소요"
+echo $(
 cd ${pjname}coin; mkdir rpc-server; cd rpc-server; npm i -g nodemon dotenv express express-generator ; express --view=pug ; npm i ; mkdir api;  cd api
 )
 
