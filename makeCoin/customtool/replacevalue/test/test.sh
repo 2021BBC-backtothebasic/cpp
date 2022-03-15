@@ -26,17 +26,20 @@ getClear=$( /usr/bin/clear )
 }
 getUnixtime
 
+
+function getGenesisH0 {
 echo -e ">> 제네시스 해시값 생성중... 약 10분 소요"
 echo $(
-
 # cd ${pjname}coin; sudo apt-get install libssl-dev -y ;
 # git clone https://github.com/lhartikk/GenesisH0; cd GenesisH0;
 # sudo pip install scrypt construct==2.5.2; 
 # sudo python2 genesis.py -a scrypt -z "${pszStamp}" -t "${getunixtime}" > ${pjname}genhash.txt;
-grep -rl :\ | xargs sed -i 's/:\ /=/g'; # source ${pjname}genhash.txt;
+# grep -rl :\ | xargs sed -i 's/:\ /=/g'; # source ${pjname}genhash.txt;
 
 gsource=$(cat gen.txt) 
+
 OIFS=$IFS
+
 	for i in $gsource
 	do
 		if [[ $i == *=* ]] ; then			
@@ -52,9 +55,13 @@ OIFS=$IFS
 		if [[ $j == *nonce* ]] ; then nonce=${j[1]} ; fi
 		if [[ $j == *genesis_hash* ]] ; then genesis_hash=${j[1]} ; fi
 	done
-	
-	IFS=$OIFS
-
-    # chainparams.cpp에 해시값 적용
-    
-)
+	unset IFS
+    # chainparams.cpp에 해시값 적용    
+	echo "in echo - merkle : $merkle_hash"
+	)
+	echo "inblock - merkle : $merkle_hash"
+}
+getGenesisH0
+echo "outside - StampMessasge : $pszStamp"
+echo "outside - merkle : $merkle_hash"
+echo "Unixtime : $getunixtime"
