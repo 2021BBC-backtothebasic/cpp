@@ -65,9 +65,34 @@ grep -rl 'vSeeds.emplace_back("seed-a.' | xargs sed -i 's/vSeeds/#vSeeds/g' ;
 grep -rl 'vSeeds.emplace_back("dnsseed.thrasher.io"' | xargs sed -i 's/vSeeds/#vSeeds/g' ; 
 grep -rl 'vSeeds.emplace_back("dnsseed.litecointools.' | xargs sed -i 's/vSeeds/#vSeeds/g' ; 
 grep -rl 'vSeeds.emplace_back("dnsseed.litecoinpool.org"' | xargs sed -i 's/vSeeds/#vSeeds/g' ; 
-grep -rl 'vvSeeds.emplace_back("dnsseed.koin-project.com"' | xargs sed -i 's/vSeeds/#vSeeds/g' ; 
+grep -rl 'vSeeds.emplace_back("dnsseed.koin-project.com"' | xargs sed -i 's/vSeeds/#vSeeds/g' ; 
+grep -rl 'vSeeds.emplace_back("dnsseed.koin-project.com", false);' | xargs sed -i 's/\;/\;\nvSeeds.clear();\nvSeeds.emplace_back("",true)\;/g' ;
+#replace and clear ok 
 
 
+#chainTxData Init
+grep -rl '1516406749' | xargs sed -i 's/1516406749/\ /g';
+grep -rl '794057' | xargs sed -i 's/794057/\ /g';
+#grep -rl '0.01' | xargs sed -i 's/0.01/0.00/g';
+
+
+#checkpointData Init - del:n:148-163
+#지정한 줄 제거하고 첫번째 해시값만 추가할예정
+grep -rl '{  1500, uint256S("0x841a2965955dd288cfa707a755d05a54e45f8bd476835ec9af4402a2b59a2967")},' | xargs sed -i 's/'{  1500, uint256S("0x841a2965955dd288cfa707a755d05a54e45f8bd476835ec9af4402a2b59a2967")},'s/\{/\#/g'; 
+grep -rl '{  1500, uint256S("0x841a2965955dd288cfa707a755d05a54e45f8bd476835ec9af4402a2b59a2967")},' | xargs sed -i 's/'{  1500, uint256S("0x841a2965955dd288cfa707a755d05a54e45f8bd476835ec9af4402a2b59a2967")},'s/\{/\#/g'; 
+
+
+
+#src>consenesus>consensus.h
+grep -rl '100' 'src/consensus/consensus.h' | xargs sed -i 's/100/$COINBASE_MATURE/g'
+#src>amount.h
+grep -rl '84000000' 'src/amount.h' | xargs sed -i 's/100/$MAX_AMOUNT/g'
+#src>validation.cpp
+grep -rl "CAmount nSubsidy = 50" 'src/validation.cpp' | xargs sed -i 's/50/$miningAmount/g' 
+#src>txmempool.cpp
+grep -rl "if (DynamicMemoryUsage() < sizelimit / 4)" 'src/txmempool.cpp' | xargs sed -i 's/50/$halfSizeLimit/g' 
+grep -rl "sizelimit / 2" 'src/txmempool.cpp' | xargs sed -i 's/2/$sizelimit/g' 
+grep -rl "halflife /= 4;" 'src/txmempool.cpp' | xargs sed -i 's/4/$halfLife/g' 
 
 )
 
