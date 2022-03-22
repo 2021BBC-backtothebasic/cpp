@@ -55,15 +55,15 @@ unset IFS;
 
 # chainparams.cpp에 해시값 적용
 echo "test_merkle_hash :" $merkle_hash ; 
-grep -rl "0x00000000000000000000000000000000000000000000002ebcfe2dd9eff82666" | xargs sed -i 's/0x00000000000000000000000000000000000000000000002ebcfe2dd9eff82666/0x0000000000000000000000000000000000000000000000000000000000000000/g' ; 
-grep -rl "0x0000000000000000000000000000000000000000000000000007d006a402163e" | xargs sed -i 's/0x0000000000000000000000000000000000000000000000000007d006a402163e/0x0000000000000000000000000000000000000000000000000000000000000000/g' ; 
-grep -rl "NY Times 05/Oct/2011 Steve Jobs, Apple’s Visionary, Dies at 56" | xargs sed -i 's/0x00000000000000000000000000000000000000000000002ebcfe2dd9eff82666/\$pszStamp/g' ; 
-grep -rl "040184710fa689ad5023690c80f3a49c8f13f8d45b8c857fbcbc8bc4a8e4d3eb4b10f4d4604fa08dce601aaf0f470216fe1b51850b4acf21b179c45070ac7b03a9" | xargs sed -i 's/0x00000000000000000000000000000000000000000000002ebcfe2dd9eff82666/\$pubkey/g' ; 
+grep -rl "0x00000000000000000000000000000000000000000000002ebcfe2dd9eff82666" | xargs sed -i "s/0x00000000000000000000000000000000000000000000002ebcfe2dd9eff82666/0x0000000000000000000000000000000000000000000000000000000000000000/g" ; 
+grep -rl "0x0000000000000000000000000000000000000000000000000007d006a402163e" | xargs sed -i "s/0x0000000000000000000000000000000000000000000000000007d006a402163e/0x0000000000000000000000000000000000000000000000000000000000000000/g" ; 
+grep -rl "NY Times 05/Oct/2011 Steve Jobs, Apple’s Visionary, Dies at 56" | xargs sed -i "s/0x00000000000000000000000000000000000000000000002ebcfe2dd9eff82666/${pszStamp}/g" ; 
+grep -rl "040184710fa689ad5023690c80f3a49c8f13f8d45b8c857fbcbc8bc4a8e4d3eb4b10f4d4604fa08dce601aaf0f470216fe1b51850b4acf21b179c45070ac7b03a9" | xargs sed -i "s/0x00000000000000000000000000000000000000000000002ebcfe2dd9eff82666/${pubkey}/g" ; 
 grep -rl "2084524493, 0x1e0ffff0, 1, 50" | xargs sed -i 's/50/\$genesisAmount/g' ; 
 grep -rl "1317972665" | xargs sed -i 's/1317972665/\$getunixtime/g' ; 
 grep -rl "2084524493" | xargs sed -i 's/1317972665/\$nonce/g' ; 
-grep -rl "0x12a765e31ffd4059bada1e25190f6e98c99d9714d334efa41a195a7e7e04bfe2" | xargs sed -i 's/0x12a765e31ffd4059bada1e25190f6e98c99d9714d334efa41a195a7e7e04bfe2/\$genesis_hash/g' ; 
-grep -rl "0x97ddfbbae6be97fd6cdf3e7ca13232a3afff2353e29badfab7f73011edd4ced9" | xargs sed -i 's/0x97ddfbbae6be97fd6cdf3e7ca13232a3afff2353e29badfab7f73011edd4ced9/\$merkel_hash/g' ; 
+grep -rl "0x12a765e31ffd4059bada1e25190f6e98c99d9714d334efa41a195a7e7e04bfe2" | xargs sed -i "s/0x12a765e31ffd4059bada1e25190f6e98c99d9714d334efa41a195a7e7e04bfe2/${genesis_hash}/g" ; 
+grep -rl "0x97ddfbbae6be97fd6cdf3e7ca13232a3afff2353e29badfab7f73011edd4ced9" | xargs sed -i "s/0x97ddfbbae6be97fd6cdf3e7ca13232a3afff2353e29badfab7f73011edd4ced9/${merkel_hash}/g" ; 
 #grep -rl 'vSeeds.emplace_back("seed-a.litecoin.loshan.co.uk", true);' | xargs sed -i 's///g';
 
 #vseeds clear
@@ -85,7 +85,7 @@ grep -rl '794057' | xargs sed -i 's/794057/\ /g';
 
 #checkpointData Init - del:n:148-163
 #지정한 줄 제거하고 첫번째 해시값만 추가할예정
-find ./ -wholename "src/chainparams.cpp"  -exec sed -i 's/{\ \ 1500,\ uint256S("0x841a2965955dd288cfa707a755d05a54e45f8bd476835ec9af4402a2b59a2967")},/\{\ 0,\ uint2565(\$genesis_hash)}/g' {} \; ;
+find ./ -wholename "src/chainparams.cpp"  -exec sed -i "s/{  1500, uint256S(\"0x841a2965955dd288cfa707a755d05a54e45f8bd476835ec9af4402a2b59a2967\")},/\{\ 0,\ uint2565(${genesis_hash})}/g" {} \; ;
 find ./ -wholename "src/chainparams.cpp"  -exec sed -i 's/{\ \ 4032,\ uint256S("0x9ce90e427198fc0ef05e5905ce3503725b80e26afd35a987965fd7e3d9cf0846")},/\ /g' {} \; ;
 find ./ -wholename "src/chainparams.cpp"  -exec sed -i 's/{\ \ 8064,\ uint256S("0xeb984353fc5190f210651f150c40b8a4bab9eeeff0b729fcb3987da694430d70")},/\ /g' {} \; ;
 find ./ -wholename "src/chainparams.cpp"  -exec sed -i 's/{\ 16128,\ uint256S("0x602edf1859b7f9a6af809f1d9b0e6cb66fdc1d4d9dcd7a4bec03e12a1ccd153d")},/\ /g' {} \; ;
@@ -103,15 +103,15 @@ find ./ -wholename "src/chainparams.cpp"  -exec sed -i 's/{638902,\ uint256S("0x
 find ./ -wholename "src/chainparams.cpp"  -exec sed -i 's/{721000,\ uint256S("0x198a7b4de1df9478e2463bd99d75b714eab235a2e63e741641dc8a759a9840e5")},/\ /g' {} \; ;
 
 #src>consenesus>consensus.h
-grep -rl '100' 'src/consensus/consensus.h' | xargs sed -i 's/100/\$COINBASE_MATURE/g' ;
+grep -rl '100' 'src/consensus/consensus.h' | xargs sed -i "s/100/${COINBASE_MATURE}/g" ;
 #src>amount.h
-grep -rl '84000000' 'src/amount.h' | xargs sed -i 's/100/\$MAX_AMOUNT/g' ;
+grep -rl '84000000' 'src/amount.h' | xargs sed -i "s/100/${MAX_AMOUNT}/g" ;
 #src>validation.cpp
-grep -rl "CAmount nSubsidy = 50" 'src/validation.cpp' | xargs sed -i 's/50/\$miningAmount/g' ;
+grep -rl "CAmount nSubsidy = 50" 'src/validation.cpp' | xargs sed -i "s/50/${miningAmount}/g" ;
 #src>txmempool.cpp
-grep -rl "if (DynamicMemoryUsage() < sizelimit / 4)" 'src/txmempool.cpp' | xargs sed -i 's/50/\$halfSizeLimit/g' ;
-grep -rl "sizelimit / 2" 'src/txmempool.cpp' | xargs sed -i 's/2/\$sizelimit/g' ;
-grep -rl "halflife /= 4;" 'src/txmempool.cpp' | xargs sed -i 's/4/\$halfLife/g' ;
+grep -rl "if (DynamicMemoryUsage() < sizelimit / 4)" 'src/txmempool.cpp' | xargs sed -i "s/50/${halfSizeLimit}/g" ;
+grep -rl "sizelimit / 2" 'src/txmempool.cpp' | xargs sed -i "s/2/${sizelimit}/g" ;
+grep -rl "halflife /= 4;" 'src/txmempool.cpp' | xargs sed -i "s/4/${halfLife}/g" ;
 
 )
 
