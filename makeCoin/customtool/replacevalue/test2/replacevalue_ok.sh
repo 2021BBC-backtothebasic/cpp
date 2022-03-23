@@ -82,6 +82,7 @@ echo "test_merkle_hash :" $merkle_hash ;
 grep -rl "0x00000000000000000000000000000000000000000000002ebcfe2dd9eff82666" | xargs sed -i "s/0x00000000000000000000000000000000000000000000002ebcfe2dd9eff82666/0x0000000000000000000000000000000000000000000000000000000000000000/g" ; 
 grep -rl "0x0000000000000000000000000000000000000000000000000007d006a402163e" | xargs sed -i "s/0x0000000000000000000000000000000000000000000000000007d006a402163e/0x0000000000000000000000000000000000000000000000000000000000000000/g" ; 
 
+
 #checkpointData Init - del:n:148-163
 #지정한 줄 제거하고 첫번째 해시값만 추가할예정
 # genesis_hash=123
@@ -129,10 +130,6 @@ grep -rl '1486949366' | xargs sed -i "s/1486949366/${getunixtime}/g";
 grep -rl '293345' | xargs sed -i "s/293345/${nonce}/g";
 grep -rl '0x1e0ffff0, 1, 50' | xargs sed -i "s/0x1e0ffff0, 1, 50/0x1e0ffff0, 1, ${genesisAmount}/g";
 
-#테스트넷 제네시스블럭정보 변경
-grep -rl '1486949366' | xargs sed -i "s/1486949366/${getunixtime}/g";
-grep -rl '293345' | xargs sed -i "s/293345/${nonce}/g";
-grep -rl '0x1e0ffff0, 1, 50' | xargs sed -i "s/50/${genesisAmount}/g";
 
 
 #src>consenesus>consensus.h
