@@ -25,10 +25,11 @@ read MAX_AMOUNT
 echo "초기 채굴량"
 read miningAmount
 
-echo "반감기 설정 (순서대로 : halfSizeLimit, sizelimit, halfLife)"
-read halfSizeLimit
-read sizelimit
-read halfLife
+echo "반감기 설정 (순서대로 : sizelimit, halflife)"
+read half_origin
+read life_origin
+# read half_balance
+# read life_balance
 
 
 
@@ -87,7 +88,7 @@ grep -rl "0x0000000000000000000000000000000000000000000000000007d006a402163e" | 
 #지정한 줄 제거하고 첫번째 해시값만 추가할예정
 # genesis_hash=123
 sed -i 's/{  1500, uint256S("0x841a2965955dd288cfa707a755d05a54e45f8bd476835ec9af4402a2b59a2967")},/{ 0, uint2565()}/g' src/chainparams.cpp  ;
-sed -i "s/{ 0, uint2565()}/{ 0, uint2565(\"${genesis_hash}\")}/g" src/chainparams.cpp  ;
+sed -i "s/{ 0, uint2565()}/{ 0, uint2565(\"0x${genesis_hash}\")}/g" "src/chainparams.cpp"  ;
 sed -i 's/{  4032, uint256S("0x9ce90e427198fc0ef05e5905ce3503725b80e26afd35a987965fd7e3d9cf0846")},/\/\//g' src/chainparams.cpp ;
 sed -i 's/{  8064, uint256S("0xeb984353fc5190f210651f150c40b8a4bab9eeeff0b729fcb3987da694430d70")},/\/\//g' src/chainparams.cpp ;
 sed -i 's/{ 16128, uint256S("0x602edf1859b7f9a6af809f1d9b0e6cb66fdc1d4d9dcd7a4bec03e12a1ccd153d")},/\/\//g' src/chainparams.cpp ;
@@ -104,7 +105,10 @@ sed -i 's/{456000, uint256S("0xbf34f71cc6366cd487930d06be22f897e34ca6a40501ac7d4
 sed -i 's/{638902, uint256S("0x15238656e8ec63d28de29a8c75fcf3a5819afc953dcd9cc45cecc53baec74f38")},/\/\//g' src/chainparams.cpp ;
 sed -i 's/{721000, uint256S("0x198a7b4de1df9478e2463bd99d75b714eab235a2e63e741641dc8a759a9840e5")},/\/\//g' src/chainparams.cpp ;
 
-sed -i "s/genesis = CreateGenesisBlock(1317972665, 2084524493, 0x1e0ffff0, 1, 50 * COIN);/genesis = CreateGenesisBlock($getunixtime, $nonce, 0x1e0ffff0, 1, $genesisAmount * COIN);/g" 
+sed -i "s/{2056, uint256S(\"17748a31ba97afdc9a4f86837a39d287e3e7c7290a08a1d816c5969c78a83289\")},/{ 0, uint2565(\"0x${genesis_hash}\")}/g" "src/chainparams.cpp"  ;
+
+
+sed -i "s/genesis = CreateGenesisBlock(1317972665, 2084524493, 0x1e0ffff0, 1, 50 * COIN);/genesis = CreateGenesisBlock(${getunixtime}, ${nonce}, 0x1e0ffff0, 1, ${genesisAmount} * COIN);/g" 
 
 grep -rl 'NY Times 05/Oct/2011 Steve Jobs, Apple’s Visionary, Dies at 56' | xargs sed -i "s/NY/${pszStamp}\";\/\//g" ; 
 grep -rl "040184710fa689ad5023690c80f3a49c8f13f8d45b8c857fbcbc8bc4a8e4d3eb4b10f4d4604fa08dce601aaf0f470216fe1b51850b4acf21b179c45070ac7b03a9" | xargs sed -i "s/040184710fa689ad5023690c80f3a49c8f13f8d45b8c857fbcbc8bc4a8e4d3eb4b10f4d4604fa08dce601aaf0f470216fe1b51850b4acf21b179c45070ac7b03a9/${pubkey}/g" ; 
@@ -120,7 +124,9 @@ grep -rl 'vSeeds.emplace_back("dnsseed.litecointools.com", true);' | xargs sed -
 grep -rl 'vSeeds.emplace_back("dnsseed.litecoinpool.org", true);' | xargs sed -i 's/vSeeds.emplace_back("dnsseed.litecoinpool.org", true);/\/\//g' ;
 grep -rl 'vSeeds.emplace_back("dnsseed.koin-project.com", false);' | xargs sed -i 's/vSeeds.emplace_back("dnsseed.koin-project.com", false);/vSeeds.clear(); vSeeds.emplace_back("",true);/g' ; 
 
-
+# 테스트넷 uinixtime
+sed -i "s/1516406749/${getunixtime}/g"; 
+sed -i "s/794057/0/g"; 
 
 #chainTxData Init
 grep -rl '1516406833' | xargs sed -i "s/1516406833/${getunixtime}/g";
@@ -139,10 +145,13 @@ grep -rl 'COINBASE_MATURITY = 100' 'src/consensus/consensus.h' | xargs sed -i "s
 grep -rl '84000000' 'src/amount.h' | xargs sed -i "s/84000000/${MAX_AMOUNT}/g" 'src/amount.h' ;
 #src>validation.cpp
 grep -rl 'CAmount nSubsidy = 50' 'src/validation.cpp' | xargs sed -i "s/CAmount nSubsidy = 50/CAmount nSubsidy = ${miningAmount}/g" 'src/validation.cpp' ;
+
 #src>txmempool.cpp
-grep -rl 'if (DynamicMemoryUsage() < sizelimit / 4)' 'src/txmempool.cpp' | xargs sed -i "s/50/${halfSizeLimit}/g" ;
-grep -rl 'sizelimit / 2' 'src/txmempool.cpp' | xargs sed -i "s/sizelimit \/ 2/sizelimit \/ ${sizelimit}/g" ;
-grep -rl 'halflife /= 4;' 'src/txmempool.cpp' | xargs sed -i "s/4/${halfLife}/g" ;
+grep -rl 'if (DynamicMemoryUsage() < sizelimit / 4)' 'src/txmempool.cpp' | xargs sed -i "s/if (DynamicMemoryUsage() < sizelimit / 4)/if (DynamicMemoryUsage() < sizelimit / ${half_origin})/g" ;
+sed -i "s/halflife /= 4;/halflife /= ${life_origin};/g" ;
+
+sed -i "s/else if (DynamicMemoryUsage() < sizelimit / 2)/else if (DynamicMemoryUsage() < sizelimit / $((${half_origin} / 2)))/g" ;
+sed -i "s/halflife /= 2;/halflife /= $((${life_origin} / 2));/g" ;
 
 )
 
